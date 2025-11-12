@@ -1,7 +1,11 @@
 import math
 import time
 import matplotlib.pyplot as plt
+from carbontracker.tracker import CarbonTracker
 # Liste des villes fraçaises et de leurs coordonnées pour le traveling salesman problem
+
+NOMBRE_VILLE = 11
+
 cities = {
     "Lyon": (45.7640, 4.8357),
     "Marseille": (43.2965, 5.3698),
@@ -125,23 +129,26 @@ def debug_traveling_salesman(number_cities, cities):
 
 def main():
     # iterate adding one more city at each step and measure time per iteration
-    max_iter = min(11, len(cities))
+    max_iter = min(NOMBRE_VILLE, len(cities))
     ns = []
     times_ms = []
+    tracker = CarbonTracker(1)
+    tracker.epoch_start()
     for i in range(max_iter):
         n = i + 1
         ns.append(n)
         t0 = time.perf_counter()
         debug_traveling_salesman(n, cities)
-        elapsed = (time.perf_counter() - t0) * 1000.0  # milliseconds
+        elapsed = (time.perf_counter() - t0)
         times_ms.append(elapsed)
+    tracker.epoch_end()   
 
     # Plot timings
     try:
         plt.figure(figsize=(8, 5))
         plt.plot(ns, times_ms, marker='o')
         plt.xlabel('Number of cities')
-        plt.ylabel('Time per iteration (ms)')
+        plt.ylabel('Time per iteration (s)')
         plt.title('TSP bruteforce: execution time vs number of cities')
         plt.grid(True)
         plt.savefig('timings.png')
