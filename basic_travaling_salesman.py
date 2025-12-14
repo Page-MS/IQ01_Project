@@ -2,7 +2,7 @@ import math
 import time
 import matplotlib.pyplot as plt
 from carbontracker.tracker import CarbonTracker
-# Liste des villes fraçaises et de leurs coordonnées pour le traveling salesman problem
+# Liste des villes françaises et de leurs coordonnées pour le traveling salesman problem
 
 NOMBRE_VILLE = 11
 
@@ -29,40 +29,34 @@ cities = {
     "Clermont-Ferrand": (45.7772, 3.0870)
 }
 
-long_cities_list = {
-    "Lyon": (45.7640, 4.8357),
-    "Marseille": (43.2965, 5.3698),
-    "Toulouse": (43.6047, 1.4442),
-    "Paris": (48.8566, 2.3522),
-    "Nice": (43.7102, 7.2620),
-    
-
-}
-
 def get_city_coordinates(city_name):
     """Retourne les coordonnées (latitude, longitude) d'une ville donnée."""
     return cities.get(city_name, None)
 
 def calculate_distance(city1, city2):
+    """
+   Calcule la distance entre deux villes
+    
+    :param city1: Première ville
+    :param city2: Seconde ville
+    """
     coords1 = get_city_coordinates(city1)
     coords2 = get_city_coordinates(city2)
     
-    # Convert latitude and longitude to radians
+    # Latitude vers radians
     lat1 = math.radians(coords1[0])
     lon1 = math.radians(coords1[1])
     lat2 = math.radians(coords2[0])
     lon2 = math.radians(coords2[1])
     
-    # Haversine formula
+    # formule de Haversine
     dlon = lon2 - lon1
     dlat = lat2 - lat1
     a = math.sin(dlat/2)**2 + math.cos(lat1) * math.cos(lat2) * math.sin(dlon/2)**2
     c = 2 * math.asin(math.sqrt(a))
     
-    # Radius of earth in kilometers
+    # Rayon de la terre
     r = 6371
-    
-    # Calculate the result
     return c * r
 
 def bruteforce_travaling_salesman(cities_dict, start_city=None):
@@ -109,7 +103,7 @@ def bruteforce_travaling_salesman(cities_dict, start_city=None):
 
 def debug_traveling_salesman(number_cities, cities):
     print("---------------------------------------------------------------------")
-    print("Bruteforce Traveling Salesman Problem Solution for {number_cities}:")
+    print("Bruteforce Traveling Salesman Problem Solution for {number_cities}:", number_cities)
     start_time = time.time()
     cuted_cities_list= dict(list(cities.items())[:number_cities])
     total_distance, path = bruteforce_travaling_salesman(cuted_cities_list)
@@ -155,21 +149,6 @@ def main():
         print('Saved timing plot to timings.png')
     except Exception as e:
         print('Could not plot timings:', e)
-   
-
-"""     # Long cities list
-    total_distance, path = bruteforce_travaling_salesman(long_cities_list)
-    print("Individual distances along the path:")
-    total = 0
-    for i in range(len(path)):
-        dist = calculate_distance(path[i], path[(i + 1) % len(path)])
-        total += dist
-        print(f"From {path[i]} to {path[(i + 1) % len(path)]}: {dist:.2f} km")
-    
-    print("\nBruteforce Traveling Salesman Problem Solution:")
-    print(f"Total distance: {total:.2f} km")
-    print(f"Path: {path}")
-    print(f"Returns to {path[0]}") """
 
 
 if __name__ == "__main__":
