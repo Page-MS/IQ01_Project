@@ -62,13 +62,13 @@ def calculate_distance(city1, city2):
 def bruteforce_travaling_salesman(cities_dict, start_city=None):
     remaining_cities = list(cities_dict.keys())
     
-    # If this is the first call (not recursive), try each city as starting point
+    # Lors de la première execution on teste toutes les villes comme point de départ
     if start_city is None:
         best_total = float('inf')
         best_path = []
         
+        # Pour chaque ville
         for city in remaining_cities:
-            # Try this city as the starting point
             others_dict = {k: v for k, v in cities_dict.items() if k != city}
             distance, path = bruteforce_travaling_salesman(others_dict, city)
             if distance < best_total:
@@ -76,20 +76,19 @@ def bruteforce_travaling_salesman(cities_dict, start_city=None):
                 best_path = [city] + path
         return best_total, best_path
     
-    # Base case: if no cities left to visit
+    # Si il ne reste plus de ville à visiter
     if not remaining_cities:
-        # Return to start city
+        # On retourne à la ville initiale
         return calculate_distance(start_city, start_city), []
     
-    # Try each remaining city as the next destination
+    # On essaie chaque ville comme prochaine destination
     min_distance = float('inf')
     best_path = []
     
     for next_city in remaining_cities:
-        # Calculate distance to this city
         current_distance = calculate_distance(start_city, next_city)
         
-        # Recursively solve for remaining cities
+        # On essaie recursivement chaque ville
         others_dict = {k: v for k, v in cities_dict.items() if k != next_city}
         sub_distance, sub_path = bruteforce_travaling_salesman(others_dict, next_city)
         
@@ -102,6 +101,12 @@ def bruteforce_travaling_salesman(cities_dict, start_city=None):
 
 
 def debug_traveling_salesman(number_cities, cities):
+    """
+    Affiche les informations du temps de calcul de résolution
+    
+    :param number_cities: Nombnre de villes
+    :param cities: Liste des villes et de leurs paramètres
+    """
     print("---------------------------------------------------------------------")
     print("Bruteforce Traveling Salesman Problem Solution for {number_cities}:", number_cities)
     start_time = time.time()
@@ -122,7 +127,7 @@ def debug_traveling_salesman(number_cities, cities):
 
 
 def main():
-    # iterate adding one more city at each step and measure time per iteration
+    # Teste le temps d'éxécution en ajoutant une ville à chaque fois
     max_iter = min(NOMBRE_VILLE, len(cities))
     ns = []
     times_ms = []
@@ -137,7 +142,7 @@ def main():
         times_ms.append(elapsed)
     tracker.epoch_end()   
 
-    # Plot timings
+    # Affichage des timings
     try:
         plt.figure(figsize=(8, 5))
         plt.plot(ns, times_ms, marker='o')
