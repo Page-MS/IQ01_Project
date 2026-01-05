@@ -14,4 +14,4 @@ Grover.ipynb : Exlication complète de l'algorithme de Grover
 
 TSP.ipynb : Code d'implémentation en informatique classique et quantique d'une instance du TSP (traveling salemsan problem)
 
-basic_travaling_salesman.py : Implémentation naïve en informatique classique du traveling salemsan problem
+basic_travaling_salesman.py : Implémentation naïve en informatique classique du traveling salesman problem
